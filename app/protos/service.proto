@@ -1,0 +1,95 @@
+syntax = "proto3";
+
+package app;
+
+// User Authentication Service
+service UserService {
+    rpc Register (UserRequest) returns (UserResponse);
+    rpc Login (LoginRequest) returns (LoginResponse);
+}
+
+// Product Management Service
+service ProductService {
+    rpc AddProduct (ProductRequest) returns (ProductResponse);
+    rpc GetProducts (EmptyRequest) returns (ProductListResponse);
+}
+
+// Order Processing Service
+service OrderService {
+    rpc CreateOrder (OrderRequest) returns (OrderResponse);
+}
+
+// Notification Service (Kafka-Driven)
+service NotificationService {
+    rpc SendEmail (NotificationRequest) returns (NotificationResponse);
+}
+
+// User Messages
+message UserRequest {
+    string username = 1;
+    string email = 2;
+    string password = 3;
+}
+
+message UserResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+message LoginRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message LoginResponse {
+    bool success = 1;
+    string token = 2;
+}
+
+// Product Messages
+message ProductRequest {
+    string name = 1;
+    float price = 2;
+}
+
+message ProductResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+message ProductListResponse {
+    repeated ProductInfo products = 1;
+}
+
+message ProductInfo {
+    int32 id = 1;
+    string name = 2;
+    float price = 3;
+}
+
+// Order Messages
+message OrderRequest {
+    int32 product_id = 1;
+    int32 user_id = 2;
+    int32 quantity = 3;
+}
+
+message OrderResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+// Notification Messages (Event-Driven with Kafka)
+message NotificationRequest {
+    string subject = 1;
+    string body = 2;
+    string recipient = 3;
+}
+
+message NotificationResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+// Empty Request for fetching all products
+message EmptyRequest {}
