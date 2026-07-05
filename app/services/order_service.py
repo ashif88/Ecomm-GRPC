@@ -5,12 +5,16 @@ from concurrent import futures
 from app.models.order import db, Order
 from app.models.product import Product
 from app.utils.kafka_producer import send_message
+from app.utils.auth_interceptor import AuthInterceptor
 
 class OrderService(service_pb2_grpc.OrderServiceServicer):
     def CreateOrder(self, request, context):
         product_id = request.product_id
         user_id = request.user_id
         quantity = request.quantity
+
+        if quantity <= 0:
+            return service_pb2.OrderResponse(success=False, message="Quantity must be greater than 0")
 
         try:
             # Validate product exists
@@ -35,10 +39,15 @@ class OrderService(service_pb2_grpc.OrderServiceServicer):
         except Exception as e:
             db.session.rollback()
             return service_pb2.OrderResponse(success=False, message=f"Database error: {str(e)}")
+        finally:
+            db.session.remove()
 
-def serve():
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+def create_server():
+    auth_interceptor = AuthInterceptor(protected_methods=['/app.OrderService/CreateOrder'])
+    server = grpc.server(
+        futures.ThreadPoolExecutor(max_workers=10),
+        interceptors=(auth_interceptor,)
+    )
     service_pb2_grpc.add_OrderServiceServicer_to_server(OrderService(), server)
     server.add_insecure_port('[::]:50053')
-    server.start()
-    server.wait_for_termination()
+    return server

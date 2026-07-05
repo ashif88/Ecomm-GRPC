@@ -11,7 +11,7 @@ service UserService {
 // Product Management Service
 service ProductService {
     rpc AddProduct (ProductRequest) returns (ProductResponse);
-    rpc GetProducts (EmptyRequest) returns (ProductListResponse);
+    rpc GetProducts (PaginationRequest) returns (ProductListResponse);
 }
 
 // Order Processing Service
@@ -93,3 +93,8 @@ message NotificationResponse {
 
 // Empty Request for fetching all products
 message EmptyRequest {}
+
+message PaginationRequest {
+    int32 limit = 1;
+    int32 offset = 2;
+}

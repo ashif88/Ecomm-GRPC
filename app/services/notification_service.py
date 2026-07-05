@@ -14,9 +14,8 @@ class NotificationService(service_pb2_grpc.NotificationServiceServicer):
 
         return service_pb2.NotificationResponse(success=True, message="Email sent successfully")
 
-def serve():
+def create_server():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     service_pb2_grpc.add_NotificationServiceServicer_to_server(NotificationService(), server)
     server.add_insecure_port('[::]:50054')
-    server.start()
-    server.wait_for_termination()
+    return server

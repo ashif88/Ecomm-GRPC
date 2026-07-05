@@ -1,2 +1,33 @@
+# Virtual Environments
+.venv/
+venv/
+env/
+
+# Environment Variables
+.env
+
+# Python Cache
 __pycache__/
-app/.env/
+*.py[cod]
+*$py.class
+
+# Testing
+.pytest_cache/
+
+# Databases
+*.db
+*.sqlite3
+ecomm.db
+
+# Logs
+*.log
+server_stdout.log
+server_stderr.log
+
+# IDEs / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Misc artifacts
+graphify-out/

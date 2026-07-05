@@ -1,7 +1,14 @@
-from app.services.user_service import serve as user_service
-from app.services.product_service import serve as product_service
-from app.services.order_service import serve as order_service
-from app.services.notification_service import serve as notification_service
+import time
+import sys
+from dotenv import load_dotenv
+
+# Load env vars before anything else
+load_dotenv()
+
+from app.services.user_service import create_server as create_user_server
+from app.services.product_service import create_server as create_product_server
+from app.services.order_service import create_server as create_order_server
+from app.services.notification_service import create_server as create_notification_server
 
 if __name__ == '__main__':
     from app.utils.db import db
@@ -13,10 +20,25 @@ if __name__ == '__main__':
     db.Model.metadata.create_all(bind=db.engine)
     print("Database tables initialized successfully.")
 
-    from concurrent.futures import ThreadPoolExecutor
+    servers = [
+        create_user_server(),
+        create_product_server(),
+        create_order_server(),
+        create_notification_server()
+    ]
 
-    with ThreadPoolExecutor(max_workers=4) as executor:
-        executor.submit(user_service)
-        executor.submit(product_service)
-        executor.submit(order_service)
-        executor.submit(notification_service)
+    print("Starting gRPC services...")
+    for server in servers:
+        server.start()
+
+    print("All services are running. Press Ctrl+C to stop.")
+    
+    try:
+        while True:
+            time.sleep(86400)
+    except KeyboardInterrupt:
+        print("\nStopping services gracefully...")
+        for server in servers:
+            server.stop(5)
+        print("Services stopped.")
+        sys.exit(0)
