@@ -1,5 +1,6 @@
-grpcio==1.70.0
+black==26.5.1
 grpcio-tools==1.70.0
+isort==8.0.1grpcio==1.70.0
 SQLAlchemy==2.0.37
 mysql-connector-python==9.2.0
 redis==5.2.1
