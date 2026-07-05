@@ -4,67 +4,64 @@
 # source: service.proto
 # Protobuf Python Version: 5.29.0
 """Generated protocol buffer code."""
+
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import descriptor_pool as _descriptor_pool
 from google.protobuf import runtime_version as _runtime_version
 from google.protobuf import symbol_database as _symbol_database
 from google.protobuf.internal import builder as _builder
+
 _runtime_version.ValidateProtobufRuntimeVersion(
-    _runtime_version.Domain.PUBLIC,
-    5,
-    29,
-    0,
-    '',
-    'service.proto'
+    _runtime_version.Domain.PUBLIC, 5, 29, 0, "", "service.proto"
 )
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
 
 
-
-
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rservice.proto\x12\x03\x61pp\"@\n\x0bUserRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\r\n\x05\x65mail\x18\x02 \x01(\t\x12\x10\n\x08password\x18\x03 \x01(\t\"0\n\x0cUserResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\"/\n\x0cLoginRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"/\n\rLoginResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\r\n\x05token\x18\x02 \x01(\t\"-\n\x0eProductRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\r\n\x05price\x18\x02 \x01(\x02\"3\n\x0fProductResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\"9\n\x13ProductListResponse\x12\"\n\x08products\x18\x01 \x03(\x0b\x32\x10.app.ProductInfo\"6\n\x0bProductInfo\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\r\n\x05price\x18\x03 \x01(\x02\"E\n\x0cOrderRequest\x12\x12\n\nproduct_id\x18\x01 \x01(\x05\x12\x0f\n\x07user_id\x18\x02 \x01(\x05\x12\x10\n\x08quantity\x18\x03 \x01(\x05\"1\n\rOrderResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\"G\n\x13NotificationRequest\x12\x0f\n\x07subject\x18\x01 \x01(\t\x12\x0c\n\x04\x62ody\x18\x02 \x01(\t\x12\x11\n\trecipient\x18\x03 \x01(\t\"8\n\x14NotificationResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\"\x0e\n\x0c\x45mptyRequest\"2\n\x11PaginationRequest\x12\r\n\x05limit\x18\x01 \x01(\x05\x12\x0e\n\x06offset\x18\x02 \x01(\x05\x32n\n\x0bUserService\x12/\n\x08Register\x12\x10.app.UserRequest\x1a\x11.app.UserResponse\x12.\n\x05Login\x12\x11.app.LoginRequest\x1a\x12.app.LoginResponse2\x8a\x01\n\x0eProductService\x12\x37\n\nAddProduct\x12\x13.app.ProductRequest\x1a\x14.app.ProductResponse\x12?\n\x0bGetProducts\x12\x16.app.PaginationRequest\x1a\x18.app.ProductListResponse2D\n\x0cOrderService\x12\x34\n\x0b\x43reateOrder\x12\x11.app.OrderRequest\x1a\x12.app.OrderResponse2W\n\x13NotificationService\x12@\n\tSendEmail\x12\x18.app.NotificationRequest\x1a\x19.app.NotificationResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(
+    b'\n\rservice.proto\x12\x03\x61pp"@\n\x0bUserRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\r\n\x05\x65mail\x18\x02 \x01(\t\x12\x10\n\x08password\x18\x03 \x01(\t"0\n\x0cUserResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t"/\n\x0cLoginRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t"/\n\rLoginResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\r\n\x05token\x18\x02 \x01(\t"-\n\x0eProductRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\r\n\x05price\x18\x02 \x01(\x02"3\n\x0fProductResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t"9\n\x13ProductListResponse\x12"\n\x08products\x18\x01 \x03(\x0b\x32\x10.app.ProductInfo"6\n\x0bProductInfo\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\r\n\x05price\x18\x03 \x01(\x02"E\n\x0cOrderRequest\x12\x12\n\nproduct_id\x18\x01 \x01(\x05\x12\x0f\n\x07user_id\x18\x02 \x01(\x05\x12\x10\n\x08quantity\x18\x03 \x01(\x05"1\n\rOrderResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t"G\n\x13NotificationRequest\x12\x0f\n\x07subject\x18\x01 \x01(\t\x12\x0c\n\x04\x62ody\x18\x02 \x01(\t\x12\x11\n\trecipient\x18\x03 \x01(\t"8\n\x14NotificationResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t"\x0e\n\x0c\x45mptyRequest"2\n\x11PaginationRequest\x12\r\n\x05limit\x18\x01 \x01(\x05\x12\x0e\n\x06offset\x18\x02 \x01(\x05\x32n\n\x0bUserService\x12/\n\x08Register\x12\x10.app.UserRequest\x1a\x11.app.UserResponse\x12.\n\x05Login\x12\x11.app.LoginRequest\x1a\x12.app.LoginResponse2\x8a\x01\n\x0eProductService\x12\x37\n\nAddProduct\x12\x13.app.ProductRequest\x1a\x14.app.ProductResponse\x12?\n\x0bGetProducts\x12\x16.app.PaginationRequest\x1a\x18.app.ProductListResponse2D\n\x0cOrderService\x12\x34\n\x0b\x43reateOrder\x12\x11.app.OrderRequest\x1a\x12.app.OrderResponse2W\n\x13NotificationService\x12@\n\tSendEmail\x12\x18.app.NotificationRequest\x1a\x19.app.NotificationResponseb\x06proto3'
+)
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
-_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'service_pb2', _globals)
+_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, "service_pb2", _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
-  DESCRIPTOR._loaded_options = None
-  _globals['_USERREQUEST']._serialized_start=22
-  _globals['_USERREQUEST']._serialized_end=86
-  _globals['_USERRESPONSE']._serialized_start=88
-  _globals['_USERRESPONSE']._serialized_end=136
-  _globals['_LOGINREQUEST']._serialized_start=138
-  _globals['_LOGINREQUEST']._serialized_end=185
-  _globals['_LOGINRESPONSE']._serialized_start=187
-  _globals['_LOGINRESPONSE']._serialized_end=234
-  _globals['_PRODUCTREQUEST']._serialized_start=236
-  _globals['_PRODUCTREQUEST']._serialized_end=281
-  _globals['_PRODUCTRESPONSE']._serialized_start=283
-  _globals['_PRODUCTRESPONSE']._serialized_end=334
-  _globals['_PRODUCTLISTRESPONSE']._serialized_start=336
-  _globals['_PRODUCTLISTRESPONSE']._serialized_end=393
-  _globals['_PRODUCTINFO']._serialized_start=395
-  _globals['_PRODUCTINFO']._serialized_end=449
-  _globals['_ORDERREQUEST']._serialized_start=451
-  _globals['_ORDERREQUEST']._serialized_end=520
-  _globals['_ORDERRESPONSE']._serialized_start=522
-  _globals['_ORDERRESPONSE']._serialized_end=571
-  _globals['_NOTIFICATIONREQUEST']._serialized_start=573
-  _globals['_NOTIFICATIONREQUEST']._serialized_end=644
-  _globals['_NOTIFICATIONRESPONSE']._serialized_start=646
-  _globals['_NOTIFICATIONRESPONSE']._serialized_end=702
-  _globals['_EMPTYREQUEST']._serialized_start=704
-  _globals['_EMPTYREQUEST']._serialized_end=718
-  _globals['_PAGINATIONREQUEST']._serialized_start=720
-  _globals['_PAGINATIONREQUEST']._serialized_end=770
-  _globals['_USERSERVICE']._serialized_start=772
-  _globals['_USERSERVICE']._serialized_end=882
-  _globals['_PRODUCTSERVICE']._serialized_start=885
-  _globals['_PRODUCTSERVICE']._serialized_end=1023
-  _globals['_ORDERSERVICE']._serialized_start=1025
-  _globals['_ORDERSERVICE']._serialized_end=1093
-  _globals['_NOTIFICATIONSERVICE']._serialized_start=1095
-  _globals['_NOTIFICATIONSERVICE']._serialized_end=1182
+    DESCRIPTOR._loaded_options = None
+    _globals["_USERREQUEST"]._serialized_start = 22
+    _globals["_USERREQUEST"]._serialized_end = 86
+    _globals["_USERRESPONSE"]._serialized_start = 88
+    _globals["_USERRESPONSE"]._serialized_end = 136
+    _globals["_LOGINREQUEST"]._serialized_start = 138
+    _globals["_LOGINREQUEST"]._serialized_end = 185
+    _globals["_LOGINRESPONSE"]._serialized_start = 187
+    _globals["_LOGINRESPONSE"]._serialized_end = 234
+    _globals["_PRODUCTREQUEST"]._serialized_start = 236
+    _globals["_PRODUCTREQUEST"]._serialized_end = 281
+    _globals["_PRODUCTRESPONSE"]._serialized_start = 283
+    _globals["_PRODUCTRESPONSE"]._serialized_end = 334
+    _globals["_PRODUCTLISTRESPONSE"]._serialized_start = 336
+    _globals["_PRODUCTLISTRESPONSE"]._serialized_end = 393
+    _globals["_PRODUCTINFO"]._serialized_start = 395
+    _globals["_PRODUCTINFO"]._serialized_end = 449
+    _globals["_ORDERREQUEST"]._serialized_start = 451
+    _globals["_ORDERREQUEST"]._serialized_end = 520
+    _globals["_ORDERRESPONSE"]._serialized_start = 522
+    _globals["_ORDERRESPONSE"]._serialized_end = 571
+    _globals["_NOTIFICATIONREQUEST"]._serialized_start = 573
+    _globals["_NOTIFICATIONREQUEST"]._serialized_end = 644
+    _globals["_NOTIFICATIONRESPONSE"]._serialized_start = 646
+    _globals["_NOTIFICATIONRESPONSE"]._serialized_end = 702
+    _globals["_EMPTYREQUEST"]._serialized_start = 704
+    _globals["_EMPTYREQUEST"]._serialized_end = 718
+    _globals["_PAGINATIONREQUEST"]._serialized_start = 720
+    _globals["_PAGINATIONREQUEST"]._serialized_end = 770
+    _globals["_USERSERVICE"]._serialized_start = 772
+    _globals["_USERSERVICE"]._serialized_end = 882
+    _globals["_PRODUCTSERVICE"]._serialized_start = 885
+    _globals["_PRODUCTSERVICE"]._serialized_end = 1023
+    _globals["_ORDERSERVICE"]._serialized_start = 1025
+    _globals["_ORDERSERVICE"]._serialized_end = 1093
+    _globals["_NOTIFICATIONSERVICE"]._serialized_start = 1095
+    _globals["_NOTIFICATIONSERVICE"]._serialized_end = 1182
 # @@protoc_insertion_point(module_scope)

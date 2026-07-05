@@ -1,9 +1,11 @@
-import redis
 import logging
+
+import redis
 
 logger = logging.getLogger(__name__)
 
-redis_client = redis.Redis(host='localhost', port=6379, decode_responses=True)
+redis_client = redis.Redis(host="localhost", port=6379, decode_responses=True)
+
 
 def get_cached_data(key):
     try:
@@ -11,6 +13,7 @@ def get_cached_data(key):
     except Exception as e:
         logger.warning(f"Redis connection failed (get): {e}")
         return None
+
 
 def set_cached_data(key, value, expiry=300):
     try:
@@ -20,6 +23,7 @@ def set_cached_data(key, value, expiry=300):
         logger.warning(f"Redis connection failed (set): {e}")
         return False
 
+
 def delete_cached_data(key):
     try:
         redis_client.delete(key)
@@ -27,4 +31,3 @@ def delete_cached_data(key):
     except Exception as e:
         logger.warning(f"Redis connection failed (delete): {e}")
         return False
-

@@ -1,20 +1,23 @@
-import time
 import sys
+import time
+
 from dotenv import load_dotenv
 
 # Load env vars before anything else
 load_dotenv()
 
-from app.services.user_service import create_server as create_user_server
-from app.services.product_service import create_server as create_product_server
+from app.services.notification_service import (
+    create_server as create_notification_server,
+)
 from app.services.order_service import create_server as create_order_server
-from app.services.notification_service import create_server as create_notification_server
+from app.services.product_service import create_server as create_product_server
+from app.services.user_service import create_server as create_user_server
 
-if __name__ == '__main__':
-    from app.utils.db import db
-    from app.models.user import User
-    from app.models.product import Product
+if __name__ == "__main__":
     from app.models.order import Order
+    from app.models.product import Product
+    from app.models.user import User
+    from app.utils.db import db
 
     print("Initializing database tables...")
     db.Model.metadata.create_all(bind=db.engine)
@@ -24,7 +27,7 @@ if __name__ == '__main__':
         create_user_server(),
         create_product_server(),
         create_order_server(),
-        create_notification_server()
+        create_notification_server(),
     ]
 
     print("Starting gRPC services...")
@@ -32,7 +35,7 @@ if __name__ == '__main__':
         server.start()
 
     print("All services are running. Press Ctrl+C to stop.")
-    
+
     try:
         while True:
             time.sleep(86400)

@@ -1,6 +1,7 @@
-from kafka import KafkaProducer
-import os
 import logging
+import os
+
+from kafka import KafkaProducer
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -14,7 +15,9 @@ try:
         # Kafka producer setup
         producer = KafkaProducer(
             bootstrap_servers=kafka_broker_url,  # Get Kafka broker URL from environment variables
-            value_serializer=lambda v: v.encode('utf-8')  # Ensures messages are sent as UTF-8 encoded strings
+            value_serializer=lambda v: v.encode(
+                "utf-8"
+            ),  # Ensures messages are sent as UTF-8 encoded strings
         )
         logger.info("Kafka producer connected successfully!")
     else:
@@ -22,9 +25,12 @@ try:
 except Exception as e:
     logger.error(f"Error connecting to Kafka: {e}")
 
+
 def send_message(topic, message):
     if producer is None:
-        logger.warning(f"Kafka producer not connected. Message to topic '{topic}' skipped: {message}")
+        logger.warning(
+            f"Kafka producer not connected. Message to topic '{topic}' skipped: {message}"
+        )
         return
     try:
         producer.send(topic, message)  # Send message to Kafka topic
