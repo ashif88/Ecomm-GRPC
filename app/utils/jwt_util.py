@@ -11,7 +11,7 @@ def generate_jwt(user_id):
     payload = {
         'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=expires_seconds),
         'iat': datetime.datetime.utcnow(),
-        'sub': user_id
+        'sub': str(user_id)  # JWT spec requires 'sub' to be a string
     }
     return jwt.encode(payload, os.getenv("SECRET_KEY", "default_secret_key"), algorithm='HS256')
 
@@ -19,8 +19,13 @@ def decode_jwt(token):
     """Decode and verify a JWT token."""
     try:
         payload = jwt.decode(token, os.getenv("SECRET_KEY", "default_secret_key"), algorithms=['HS256'])
-        return payload['sub']
-    except jwt.ExpiredSignatureError:
+        return int(payload['sub'])  # Convert back to int for the application
+    except jwt.ExpiredSignatureError as e:
+        print(f"Token expired: {e}")
         return None  # Token expired
-    except jwt.InvalidTokenError:
+    except jwt.InvalidTokenError as e:
+        print(f"Invalid token: {e}")
         return None  # Invalid token
+    except Exception as e:
+        print(f"Unknown JWT error: {e}")
+        return None
