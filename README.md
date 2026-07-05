@@ -10,6 +10,7 @@ A Python-based e-commerce microservices backend built completely on **gRPC** (Go
 - **SQLAlchemy ORM**: Database interactions (configured for SQLite by default, easy to swap to MySQL/PostgreSQL).
 - **Redis Caching**: Caches product catalogs to reduce database load.
 - **Kafka Event Streaming**: Asynchronous event publishing for order creation and email notifications.
+- **Dockerized Deployment**: Full `docker-compose.yml` with Redis, Kafka, and the app — one command to run everything.
 - **Pagination support**: Optimized data retrieval.
 - **Comprehensive Testing**: Includes integration and unit tests using `pytest` and `pytest-mock`.
 
@@ -26,12 +27,59 @@ The system consists of a single orchestrator (`run.py`) that launches 4 distinct
 
 ---
 
-## 🛠️ Setup & Installation
+## 🐳 Quick Start with Docker (Recommended)
+
+The fastest way to get the full stack running — **no manual Redis or Kafka setup needed**.
+
+### Prerequisites
+- **Docker** & **Docker Compose** (v2+)
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/ashif88/Ecomm-GRPC.git
+cd Ecomm-GRPC
+```
+
+### 2. Start everything
+```bash
+docker compose up --build
+```
+
+This builds the app image and spins up **Redis**, **Kafka** (with Zookeeper), and the **gRPC app** — with health checks ensuring the app waits for infrastructure to be ready.
+
+You should see:
+```text
+Initializing database tables...
+Database tables initialized successfully.
+Starting gRPC services...
+All services are running. Press Ctrl+C to stop.
+```
+
+### Useful commands
+```bash
+# Run in detached (background) mode
+docker compose up --build -d
+
+# View live logs
+docker compose logs -f app
+
+# Stop and remove all containers
+docker compose down
+
+# Stop and remove containers, volumes, and images
+docker compose down -v --rmi local
+```
+
+---
+
+## 🛠️ Local Development Setup (Without Docker)
+
+If you prefer running directly on your machine.
 
 ### Prerequisites
 - **Python 3.9+**
-- **Redis Server** (Running locally on default port 6379, or updated in `.env`)
-- **Apache Kafka** (Optional: defaults to gracefully degrade if offline)
+- **Redis Server** (running locally on default port 6379, or configured via env vars)
+- **Apache Kafka** (optional — the app degrades gracefully if Kafka is offline)
 
 ### 1. Clone the repository
 ```bash
@@ -40,7 +88,6 @@ cd Ecomm-GRPC
 ```
 
 ### 2. Create a Virtual Environment
-It is highly recommended to use an isolated Python virtual environment.
 ```bash
 # On Windows
 python -m venv .venv
@@ -57,34 +104,35 @@ pip install -r requirements.txt
 ```
 
 ### 4. Environment Variables Setup
-Create a `.env` file in the root directory and add the following configuration:
+Create a `.env` file in the root directory:
 ```bash
 DATABASE_URL=sqlite:///ecomm.db
 SECRET_KEY=default_secret_key
 JWT_ACCESS_TOKEN_EXPIRES=3600
+REDIS_HOST=localhost
+REDIS_PORT=6379
 KAFKA_BROKER_URL=
 ```
-_You can customize the database URLs, JWT Secrets, or Kafka/Redis host ports here._
 
----
-
-## 🚀 Running the Services
-
-To start the database, initialize the tables, and boot all 4 gRPC servers simultaneously, simply run the entry point script:
-
+### 5. Run the Services
 ```bash
 python run.py
 ```
 
-You should see:
-```text
-Initializing database tables...
-Database tables initialized successfully.
-Starting gRPC services...
-All services are running. Press Ctrl+C to stop.
-```
+To gracefully shut down, press `Ctrl+C`. The script gives ongoing requests 5 seconds to finish before terminating.
 
-To gracefully shut down the servers, simply press `Ctrl+C`. The script will trap the signal and give ongoing requests 5 seconds to finish before terminating.
+---
+
+## ⚙️ Environment Variables
+
+| Variable | Description | Default |
+|---|---|---|
+| `DATABASE_URL` | SQLAlchemy database connection string | `sqlite:///ecomm.db` |
+| `SECRET_KEY` | Secret key for JWT token signing | `default_secret_key` |
+| `JWT_ACCESS_TOKEN_EXPIRES` | JWT token expiry in seconds | `3600` |
+| `REDIS_HOST` | Redis server hostname | `localhost` |
+| `REDIS_PORT` | Redis server port | `6379` |
+| `KAFKA_BROKER_URL` | Kafka bootstrap server address (leave empty to disable) | _(empty)_ |
 
 ---
 
@@ -113,3 +161,25 @@ From the root directory, run:
 python -m grpc_tools.protoc -Iapp/protos --python_out=. --grpc_python_out=. app/protos/service.proto
 ```
 _This will update `service_pb2.py` and `service_pb2_grpc.py`._
+
+---
+
+## 📁 Project Structure
+
+```
+Ecomm-GRPC/
+├── app/
+│   ├── models/          # SQLAlchemy ORM models
+│   ├── protos/          # Protocol Buffer definitions
+│   ├── services/        # gRPC service implementations
+│   └── utils/           # Shared utilities (DB, Redis, Kafka, JWT, Auth)
+├── tests/               # Unit and integration tests
+├── service_pb2.py       # Generated protobuf code
+├── service_pb2_grpc.py  # Generated gRPC stubs
+├── run.py               # Application entry point
+├── requirements.txt     # Python dependencies
+├── Dockerfile           # Multi-stage Docker build
+├── docker-compose.yml   # Full-stack orchestration
+├── .dockerignore        # Docker build context exclusions
+└── .env                 # Environment variables (not committed)
+```
